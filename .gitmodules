@@ -1,0 +1,3 @@
+[submodule "eqemu-definitions"]
+	path = eqemu-definitions
+	url = https://github.com/xackery/eqemu-definitions
