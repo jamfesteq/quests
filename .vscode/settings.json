@@ -10,7 +10,7 @@
         "**/node_modules": true,
         "**/bower_components": true,
         "**/*.code-search": true,
-        "**/eqemu-definitions": true,
+        //"**/eqemu-definitions": true,
     },
     "files.trimTrailingWhitespace": true
 }
