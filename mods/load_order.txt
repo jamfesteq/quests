@@ -1,1 +1,2 @@
 exp.lua
+register_bug.lua

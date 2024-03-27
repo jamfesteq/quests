@@ -4,3 +4,5 @@ pull:
 runeq:
 	cd .. && ./hc run --config hc.yaml
 
+update:
+	../telleq quest reload
