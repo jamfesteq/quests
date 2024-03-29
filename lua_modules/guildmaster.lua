@@ -54,7 +54,7 @@ end
 function cleric_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.self:Say("I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.White, "I'm sorry, i cannot buff you unless you have sufficient money.")
             return
         end
         -- HP
@@ -160,12 +160,15 @@ function cleric_buffs(e)
         elseif e.other:GetLevel() >= 19 then
             eq.SelfCast(228)
         end
+    elseif (e.message:findi("bind")) then
+		e.other:Message(MT.White, "Binding your soul. You will return here when you die.");
+		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local plat = get_money_amount(e.other)
         if plat > 0 then
-            e.self:Say("As a cleric guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As a cleric guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         else
-            e.self:Say("As a cleric guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As a cleric guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         end
     end
 end
@@ -203,7 +206,7 @@ function druid_ports_and_buffs(e)
 
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.self:Say("I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.White, "I'm sorry, i cannot buff you unless you have sufficient money.")
             return
         end
         -- HP Type 1
@@ -320,17 +323,20 @@ function druid_ports_and_buffs(e)
         end
     end
     elseif (e.message:findi("teleport")) then
-        e.self:Say("I can teleport you to the following continents: " .. build_say_links(continents))
+        e.other:Message(MT.White, "I can teleport you to the following continents: " .. build_say_links(continents))
     elseif (e.message:findi("antonica")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(antonica_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(antonica_zones))
     elseif (e.message:findi("faydwer")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
     elseif (e.message:findi("odus")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(odus_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(odus_zones))
     elseif (e.message:findi("kunark")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(kunark_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(velious_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
+    elseif (e.message:findi("bind")) then
+		e.other:Message(MT.White, "Binding your soul. You will return here when you die.");
+		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
         merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones)
@@ -339,7 +345,7 @@ function druid_ports_and_buffs(e)
                 if (take_money(e.other)) then
                     eq.SelfCast(v)
                 else
-                    e.self:Say("I'm sorry, i cannot teleport you unless you have sufficient money.")
+                    e.other:Message(MT.White, "I'm sorry, i cannot teleport you unless you have sufficient money.")
                 end
                 return
             end
@@ -347,9 +353,9 @@ function druid_ports_and_buffs(e)
 
         local plat = get_money_amount(e.other)
         if plat > 0 then
-            e.self:Say("As a druid guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures or [" .. eq.say_link("teleport") .. "] you somewhere else.")
+            e.other:Message(MT.White, "As a druid guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures or [" .. eq.say_link("teleport", true) .. "] you somewhere else.")
         else
-            e.self:Say("As a druid guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures or [" .. eq.say_link("teleport") .. "] you somewhere else.")
+            e.other:Message(MT.White, "As a druid guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures or [" .. eq.say_link("teleport", true) .. "] you somewhere else.")
         end
     end
 end
@@ -358,7 +364,7 @@ end
 function enchanter_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.self:Say("I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.White, "I'm sorry, i cannot buff you unless you have sufficient money.")
             return
         end
         -- Haste
@@ -420,12 +426,15 @@ function enchanter_buffs(e)
                 eq.SelfCast(1408)
             end
         end
+    elseif (e.message:findi("bind")) then
+		e.other:Message(MT.White, "Binding your soul. You will return here when you die.");
+		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local plat = get_money_amount(e.other)
         if plat > 0 then
-            e.self:Say("As an enchanter guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As an enchanter guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         else
-            e.self:Say("As a enchanter guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As a enchanter guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         end
     end
 end
@@ -434,7 +443,7 @@ end
 function shaman_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.self:Say("I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.White, "I'm sorry, i cannot buff you unless you have sufficient money.")
             return
         end
         -- Talisman
@@ -628,12 +637,15 @@ function shaman_buffs(e)
         else
             eq.SelfCast(267)
         end
+    elseif (e.message:findi("bind")) then
+		e.other:Message(MT.White, "Binding your soul. You will return here when you die.");
+		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local plat = get_money_amount(e.other)
         if plat > 0 then
-            e.self:Say("As a shaman guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As a shaman guildmaster, for a fee of " .. plat .. " platinum pieces, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         else
-            e.self:Say("As a shaman guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs") .. "] to assist you in your adventures.")
+            e.other:Message(MT.White, "As a shaman guildmaster, for no fee, I can provide you with [" .. eq.say_link("buffs", true) .. "] or [" .. eq.say_link("bind", true) .. "] to assist you in your adventures.")
         end
     end
 end
@@ -665,17 +677,20 @@ function wizard_ports(e)
     end
 
     if (e.message:findi("teleport")) then
-        e.self:Say("I can teleport you to the following continents: " .. build_say_links(continents))
+        e.other:Message(MT.White, "I can teleport you to the following continents: " .. build_say_links(continents))
     elseif (e.message:findi("antonica")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(antonica_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(antonica_zones))
     elseif (e.message:findi("faydwer")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
     elseif (e.message:findi("odus")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(odus_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(odus_zones))
     elseif (e.message:findi("kunark")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(kunark_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
-        e.self:Say("I can teleport you to the following zones: " .. build_say_links(velious_zones))
+        e.other:Message(MT.White, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
+    elseif (e.message:findi("bind")) then
+		e.other:Message(MT.White, "Binding your soul. You will return here when you die.");
+		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
         merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones)
@@ -684,7 +699,7 @@ function wizard_ports(e)
                 if (take_money(e.other)) then
                     eq.SelfCast(v)
                 else
-                    e.self:Say("I'm sorry, i cannot teleport you unless you have sufficient money.")
+                    e.other:Message(MT.White, "I'm sorry, i cannot teleport you unless you have sufficient money.")
                 end
                 return
             end
@@ -692,9 +707,9 @@ function wizard_ports(e)
 
         local plat = get_money_amount(e.other)
         if plat > 0 then
-            e.self:Say("As a wizard guildmaster, for a fee of " .. plat .. " platinum pieces, I can [" .. eq.say_link("teleport") .. "] you somewhere else.")
+            e.other:Message(MT.White, "As a wizard guildmaster, for a fee of " .. plat .. " platinum pieces, I can [" .. eq.say_link("teleport", true) .. "] or [" .. eq.say_link("bind", true) .. "] you.")
         else
-            e.self:Say("As a wizard guildmaster, for no fee, I can [" .. eq.say_link("teleport") .. "] you somewhere else.")
+            e.other:Message(MT.White, "As a wizard guildmaster, for no fee, I can [" .. eq.say_link("teleport", true) .. "] or [" .. eq.say_link("bind", true) .. "] you.")
         end
     end
 end
