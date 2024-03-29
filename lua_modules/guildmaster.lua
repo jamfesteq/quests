@@ -16,7 +16,8 @@ end
 function guildmaster.do_buffs_and_ports(e)
     local mob_class = e.self:GetClass()
 
-    if (mob_class == 21) then cleric_buffs(e)
+    if (e.self:GetCleanName() == "Priest of Discord") then wizard_ports(e)
+    elseif (mob_class == 21) then cleric_buffs(e)
     elseif (mob_class == 25) then druid_ports_and_buffs(e)
     elseif (mob_class == 29) then shaman_buffs(e)
     elseif (mob_class == 31) then wizard_ports(e)
