@@ -1,6 +1,5 @@
 ---@param e NPCEventSay
 function event_say(e)
-    e.other:Message(MT.White, "Test")
     local guildmaster = require("guildmaster");
     guildmaster.do_buffs_and_ports(e);
 end
