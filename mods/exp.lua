@@ -3,7 +3,6 @@ function GetExperienceForKill(e)
     local base_exp = get_base_experience(e)
     base_exp = base_exp * 0.6499999761581
 
-    e.self:Message(MT.White, "Base:" .. base_exp)
     local multiplier = 1
     local boost_4x = e.self:GetBucket("boost_4x")
     if boost_4x == "ON" then
@@ -12,7 +11,12 @@ function GetExperienceForKill(e)
 
     local final_exp = base_exp * multiplier
 
-    e.self:Message(MT.Yellow, string.format("%s (%d) XP: %d, Multiplier: x%d, Before Con/Split Final: %d", e.other:GetCleanName(), e.other:GetLevel(), base_exp, multiplier, final_exp))
+    local is_debug = e.self:GetBucket("exp_debug")
+
+    if is_debug == "ON" then
+        e.self:Message(MT.Experience, string.format("Base EXP: %d, Multiplier: x%d, Before Con/Split Final: %d", base_exp, multiplier, final_exp))
+    end
+
     e.ReturnValue = final_exp
     e.IgnoreDefault = true
     return e

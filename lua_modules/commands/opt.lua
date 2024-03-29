@@ -1,6 +1,7 @@
 local commands = { }
 
 commands["4x"] = { require("lua_modules/commands/opt/boost_4x"), "Toggle experience boost by 4x"}
+commands["exp_debug"] = { require("lua_modules/commands/opt/exp_debug"), "Toggle experience debug messaging"}
 
 ---@param e PlayerEventCommand
 local function opt(e)
@@ -22,12 +23,19 @@ end
 
 ---@param e PlayerEventCommand
 function opt_usage(e)
-    local boost_4x = e.self:GetBucket("boost_4x");
-    if boost_4x ~= "ON" then
-        boost_4x = "OFF"
+    local val = e.self:GetBucket("boost_4x");
+    if val ~= "ON" then
+        val = "OFF"
     end
 
-    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. boost_4x).."]");
+    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. val).."]");
+
+    val = e.self:GetBucket("exp_debug");
+    if val ~= "ON" then
+        val = "OFF"
+    end
+
+    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt exp_debug", true, "exp_debug " .. val).."]");
 end
 
 return opt;
