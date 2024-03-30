@@ -47,10 +47,15 @@ function CheckHitChance(e)
 
     local is_debug = ally:GetBucket("mighty_debug")
 
+
+    local ohit = e.hit.tohit
+    local obase_damage = e.hit.base_damage
+    local obase_damage_done = e.hit.damage_done
+
     e.hit.tohit = e.hit.tohit * multiplier
     e.hit.base_damage = e.hit.base_damage * multiplier
     e.hit.damage_done = e.hit.damage_done * multiplier
-    if e.hit.damage_done < 1 then
+    if obase_damage_done > 0 and e.hit.damage_done < 1 then
         e.hit.damage_done = 1
     end
 
@@ -59,9 +64,9 @@ function CheckHitChance(e)
     end
 
     if is_good then
-        ally:Message(MT.YouHitOther, string.format("outgoing base_hit: %d, base_dmg: %d, base_dmg_done: %d, multiplier: %d, hit: %d, dmg: %d, dmg_done: %d", e.hit.tohit /multiplier, e.hit.base_damage/multiplier, e.hit.damage_done/multiplier, multiplier, e.hit.tohit, e.hit.base_damage, e.hit.damage_done))
+        ally:Message(MT.YouHitOther, string.format("outgoing base_hit: %d, base_dmg: %d, base_dmg_done: %d, multiplier: %d, hit: %d, dmg: %d, dmg_done: %d", ohit, obase_damage, obase_damage_done, multiplier, e.hit.tohit, e.hit.base_damage, e.hit.damage_done))
         return e
     end
-    ally:Message(MT.OtherHitsYou, string.format("incoming base_hit: %d, base_dmg: %d, base_dmg_done: %d, multiplier: %f, hit: %d, dmg: %d, dmg_done: %d", e.hit.tohit/multiplier, e.hit.base_damage/multiplier, e.hit.damage_done/multiplier, multiplier, e.hit.tohit, e.hit.base_damage, e.hit.damage_done))
+    ally:Message(MT.OtherHitsYou, string.format("incoming base_hit: %d, base_dmg: %d, base_dmg_done: %d, multiplier: %f, hit: %d, dmg: %d, dmg_done: %d", ohit, obase_damage, obase_damage_done, multiplier, e.hit.tohit, e.hit.base_damage, e.hit.damage_done))
     return e
 end
