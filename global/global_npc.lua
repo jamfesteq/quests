@@ -133,7 +133,10 @@ function event_spawn(e)
         local copper = cash - plat * 1000 - gold * 100 - silver * 10;
         ---e.self:Say(string.format("Rolled %d cash, %d plat, %d gold, %d silver, %d copper", cash, plat, gold, silver, copper))
 
-        e.self:AddCash(copper, silver, gold, plat);
+        --e.self:Say(string.format("Before: %d plat, %d gold, %d silver, %d copper", e.self:GetPlatinum(), e.self:GetGold(), e.self:GetSilver(), e.self:GetCopper()))
+
+        e.self:AddCash(e.self:GetCopper()+copper, e.self:GetSilver()+silver, e.self:GetGold()+gold, e.self:GetPlatinum()+plat);
+        --e.self:Say(string.format("After: %d plat, %d gold, %d silver, %d copper", e.self:GetPlatinum(), e.self:GetGold(), e.self:GetSilver(), e.self:GetCopper()))
     end
 
     -- peq_halloween
