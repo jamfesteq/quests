@@ -8,3 +8,4 @@ require("general_ext");
 require("bit");
 require("directional");
 require("constants/instance_versions");
+require("guildmaster")
