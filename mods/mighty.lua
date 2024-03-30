@@ -40,8 +40,14 @@ function CheckHitChance(e)
     if mighty == "ON" then
         if is_good then
             multiplier = 2
+            -- if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
+            --     multiplier = 20
+            -- end
         else
-            multiplier = 0.5
+            multiplier = 0.8
+            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
+                 multiplier = 0.5
+            end
         end
     end
 
@@ -49,30 +55,32 @@ function CheckHitChance(e)
 
 
     local ohit = e.hit.tohit
-    local obase_damage = e.hit.base_damage
-    local obase_damage_done = e.hit.damage_done
+    -- local obase_damage = e.hit.base_damage
+    -- local obase_damage_done = e.hit.damage_done
 
     e.hit.tohit = e.hit.tohit * multiplier
-    e.hit.base_damage = e.hit.base_damage * multiplier
-    e.hit.damage_done = e.hit.damage_done * multiplier
-    if obase_damage_done > 0 and e.hit.damage_done < 1 then
-        e.hit.damage_done = 1
-    end
+    -- e.hit.base_damage = e.hit.base_damage * multiplier
+    -- e.hit.damage_done = e.hit.damage_done * multiplier
+    -- if obase_damage_done > 0 and e.hit.damage_done < 1 then
+    --     e.hit.damage_done = 1
+    -- end
 
     if not is_debug or is_debug ~= "ON" then
         return e
     end
 
     if is_good then
-        ally:Message(MT.OtherHitsYou, string.format("Outgoing mighty hit (%d * %0.1f) = %d, dmg (%d * %0.1f) = %d, dmg_done (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit,  obase_damage, multiplier, e.hit.base_damage, obase_damage_done, multiplier, e.hit.damage_done))
+        --- ally:Message(MT.OtherHitsYou, string.format("Outgoing mighty hit (%d * %0.1f) = %d, dmg (%d * %0.1f) = %d, dmg_done (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit,  obase_damage, multiplier, e.hit.base_damage, obase_damage_done, multiplier, e.hit.damage_done))
+        ally:Message(MT.OtherHitsYou, string.format("Outgoing mighty hit (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit))
         return e
     end
-    ally:Message(MT.OtherHitsYou, string.format("Incoming mighty hit (%d * %0.1f) = %d, dmg (%d * %0.1f) = %d, dmg_done (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit,  obase_damage, multiplier, e.hit.base_damage, obase_damage_done, multiplier, e.hit.damage_done))
+    ---ally:Message(MT.OtherHitsYou, string.format("Incoming mighty hit (%d * %0.1f) = %d, dmg (%d * %0.1f) = %d, dmg_done (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit,  obase_damage, multiplier, e.hit.base_damage, obase_damage_done, multiplier, e.hit.damage_done))
+    ally:Message(MT.OtherHitsYou, string.format("Incoming mighty hit (%d * %0.1f) = %d", ohit, multiplier, e.hit.tohit))
     return e
 end
 
----@param e ModGetActSpellHealing
-function GetActSpellHealing(e)
+---@param e ModHealDamage
+function HealDamage(e)
     local multiplier = 1
 
     local ally = e.self:CastToClient()
@@ -102,14 +110,14 @@ function GetActSpellHealing(e)
 end
 
 
----@param e ModGetActSpellDamage
-function GetActSpellDamage(e)
+---@param e ModCommonDamage
+function CommonDamage(e)
     local multiplier = 1
 
 
-    local is_good = true
+    local is_good = false
     local ally = e.self
-    local enemy = e.target
+    local enemy = e.attacker
     if not ally.valid then
         return e
     end
@@ -120,8 +128,8 @@ function GetActSpellDamage(e)
         if ally:HasOwner() and ally:GetOwner():IsClient() then
             ally = ally:GetOwner() -- pet
         else
-            is_good = false
-            ally = e.target
+            is_good = true
+            ally = e.attacker
             enemy = e.self
             if not ally:IsClient() then
                 if not ally:HasOwner() then
@@ -142,8 +150,14 @@ function GetActSpellDamage(e)
     if mighty == "ON" then
         if is_good then
             multiplier = 2
+            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
+                multiplier = 20
+            end
         else
-            multiplier = 0.5
+            multiplier = 0.8
+            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
+                multiplier = 0.3
+            end
         end
     end
 
@@ -156,9 +170,9 @@ function GetActSpellDamage(e)
     end
 
     if is_good then
-        ally:Message(MT.Spells, string.format("Outgoing mighty (%d * %0.1f) = %d", -e.value, multiplier, -e.return_value))
+        ally:Message(MT.Spells, string.format("Outgoing mighty (%d * %0.1f) = %d", e.value, multiplier, e.return_value))
         return e
     end
-    ally:Message(MT.Spells, string.format("Incoming mighty (%d * %0.1f) = %d", -e.value, multiplier, -e.return_value))
+    ally:Message(MT.Spells, string.format("Incoming mighty (%d * %0.1f) = %d", e.value, multiplier, e.return_value))
     return e
 end
