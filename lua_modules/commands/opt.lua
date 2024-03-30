@@ -2,6 +2,8 @@ local commands = { }
 
 commands["4x"] = { require("lua_modules/commands/opt/boost_4x"), "Toggle experience boost by 4x"}
 commands["exp_debug"] = { require("lua_modules/commands/opt/exp_debug"), "Toggle experience debug messaging"}
+commands["mighty"] = { require("lua_modules/commands/opt/mighty"), "Toggle mighty"}
+commands["mighty_debug"] = { require("lua_modules/commands/opt/mighty_debug"), "Toggle mighty debug messaging"}
 
 ---@param e PlayerEventCommand
 local function opt(e)
@@ -12,7 +14,7 @@ local function opt(e)
 
     local command = commands[e.args[1]];
     if not command then
-        e.self:Message(MT.White("Unknown option: " .. e.args[2]))
+        e.self:Message(MT.White, "Unknown option: " .. e.args[1])
         opt_usage(e)
         return
     end
@@ -23,19 +25,32 @@ end
 
 ---@param e PlayerEventCommand
 function opt_usage(e)
-    local val = e.self:GetBucket("boost_4x");
-    if val ~= "ON" then
-        val = "OFF"
+    local boost4x = e.self:GetBucket("boost_4x");
+    if boost4x ~= "ON" then
+        boost4x = "OFF"
     end
 
-    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. val).."]");
 
-    val = e.self:GetBucket("exp_debug");
-    if val ~= "ON" then
-        val = "OFF"
+    local exp_debug = e.self:GetBucket("exp_debug");
+    if exp_debug ~= "ON" then
+        exp_debug = "OFF"
     end
 
-    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt exp_debug", true, "exp_debug " .. val).."]");
+    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. boost4x).."] [" .. eq.say_link("#opt exp_debug", true, "exp_debug " .. exp_debug).."]");
+
+    local boost_mighty = e.self:GetBucket("boost_mighty");
+    if boost_mighty ~= "ON" then
+        boost_mighty = "OFF"
+    end
+
+
+    local mighty_debug = e.self:GetBucket("mighty_debug");
+    if mighty_debug ~= "ON" then
+        mighty_debug = "OFF"
+    end
+
+    e.self:Message(MT.White, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
+
 end
 
 return opt;

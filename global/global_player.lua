@@ -523,11 +523,12 @@ function con_npc(e)
 	local ratio = base_exp / hp
 
     local spawnGroupMsg = ""
-    local spawn = eq.get_entity_list():GetSpawnByID(npc:GetNPCTypeID())
-    if not spawn.valid then
+
+	local sp2 = npc:GetSp2()
+    if not sp2 then
         spawnGroupMsg = "and has no spawn info"
     else
-        spawnGroupMsg = string.format("and is part of spawngroup %d", spawn:SpawnGroupID())
+		spawnGroupMsg = string.format("and is part of spawngroup %d", sp2)
     end
     e.self:Message(MT.White, string.format("%s is a %s %s npc with npctypeid %d %s and a HP:XP of %d", npc:GetCleanName(), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, ratio));
     return true
