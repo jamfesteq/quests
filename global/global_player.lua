@@ -479,7 +479,8 @@ end
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
 function con_player(e)
-    local target = e.self:GetTarget()
+	local target = eq.get_entity_list():GetMobID(e.entity_id)
+
     if not target.valid then
         return false
     end
@@ -495,7 +496,8 @@ end
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
 function con_npc(e)
-    local target = e.self:GetTarget()
+	local target = eq.get_entity_list():GetMobID(e.entity_id)
+
     if not target.valid then
         return false
     end
@@ -504,21 +506,38 @@ function con_npc(e)
     end
     local npc = target:CastToNPC()
 
+	local rare_flag = "normal"
+	if npc:IsRareSpawn() then
+		rare_flag = "rare"
+	end
+
+	local raid_flag = "non-raid"
+	if npc:IsRaidTarget() then
+		raid_flag = "raid"
+	end
+
+	local experience = require('experience')
+
+    local base_exp = experience.get_base(target)
+	local hp = target:GetMaxHP()
+	local ratio = base_exp / hp
+
     local spawnGroupMsg = ""
-    local spawn = eq.get_entity_list():GetSpawnByID(npc:GetID())
+    local spawn = eq.get_entity_list():GetSpawnByID(npc:GetNPCTypeID())
     if not spawn.valid then
         spawnGroupMsg = "and has no spawn info"
     else
         spawnGroupMsg = string.format("and is part of spawngroup %d", spawn:SpawnGroupID())
     end
-    e.self:Message(MT.White, string.format("%s is an npc with npctypeid %d %s", npc:GetCleanName(), npc:GetID(), spawnGroupMsg));
+    e.self:Message(MT.White, string.format("%s is a %s %s npc with npctypeid %d %s and a HP:XP of %d", npc:GetCleanName(), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, ratio));
     return true
 end
 
 ---@param e PlayerEventConsider
 ---@return boolean # true if the command was handled
 function con_corpse(e)
-    local target = e.self:GetTarget()
+	local target = eq.get_entity_list():GetMobID(e.entity_id)
+
     if not target.valid then
         return false
     end
