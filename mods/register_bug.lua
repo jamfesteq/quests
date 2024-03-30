@@ -3,6 +3,8 @@ function RegisterBug(e)
     local msg = ""
     local client = e.self
     local inv = client:GetInventory()
+    local target = eq.get_entity_list():GetMobID(e.target_id)
+
 
     msg = msg .. "-------\n"
     msg = msg .. "message\n"
@@ -19,6 +21,21 @@ function RegisterBug(e)
     end
 
     msg = msg .. string.format("Location: `#zone %s %d %d %d`\n", e.zone,  client:GetX() , client:GetY() , client:GetZ())
+
+    if target.valid then
+        if target:IsNPC() then
+            local npc = target:CastToNPC()
+            msg = string.format("%sTarget: %s (NpcTypeID: %d) Sp2: %d\n", msg, target:GetName(), target:GetNPCTypeID(), npc:GetSp2())
+        elseif target:IsClient() then
+            msg = string.format("%sTarget: %s (Client)", msg, target:GetName())
+        elseif target:IsCorpse() then
+            msg = string.format("%sTarget: %s (Corpse)", msg, target:GetName())
+        else
+            msg = string.format("%sTarget: %s (Unknown)", msg, target:GetName())
+        end
+    else
+        msg = string.format("%sTarget: none\n", msg)
+    end
 
     msg = msg .. "-------\n"
     msg = msg .. "bug info\n"
@@ -176,6 +193,6 @@ function RegisterBug(e)
         return
     end
 
-    e.IgnoreDefault = true
+    e.ignore_default = true
     return e
 end
