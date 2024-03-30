@@ -54,7 +54,7 @@ function CheckHitChance(e)
         e.hit.damage_done = 1
     end
 
-    if not is_debug then
+    if not is_debug or is_debug ~= "ON" then
         return e
     end
 
