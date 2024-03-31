@@ -7,7 +7,7 @@ local function exp_debug(e)
         exp_debug = "ON"
     end
     e.self:SetBucket("exp_debug", exp_debug)
-    e.self:Message(15, "Experience debug messaging is now " .. exp_debug)
+    e.self:Message(MT.Say, "Experience debug messaging is now " .. exp_debug)
 end
 
 return exp_debug;

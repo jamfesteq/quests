@@ -1,5 +1,10 @@
 ---@param e ModGetExperienceForKill
 function GetExperienceForKill(e)
+    if not e.self:IsClient() then
+        return e
+    end
+    local client = e.self:CastToClient()
+
     local experience = require('experience')
 
     local base_exp = experience.get_base(e.other)
@@ -9,6 +14,27 @@ function GetExperienceForKill(e)
     local boost_4x = e.self:GetBucket("boost_4x")
     if boost_4x == "ON" then
         multiplier = multiplier * 4
+    end
+
+    local boost_catchup = e.self:GetBucket("boost_catchup")
+    if boost_catchup == "ON" then
+        local level = client:GetLevel()
+        multiplier = multiplier + 6
+        if level >= 10 then
+            multiplier = multiplier + 4
+        end
+        if level >= 20 then
+            multiplier = multiplier + 4
+        end
+        if level >= 30 then
+            multiplier = multiplier + 4
+        end
+        if level >= 40 then
+            multiplier = multiplier + 6
+        end
+        if level >= 50 then
+            multiplier = multiplier + 10
+        end
     end
 
     local final_exp = base_exp * multiplier

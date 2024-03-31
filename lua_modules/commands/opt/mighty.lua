@@ -7,7 +7,7 @@ local function boost_mighty(e)
         boost_mighty = "ON"
     end
     e.self:SetBucket("boost_mighty", boost_mighty)
-    e.self:Message(15, "Mighty combat boost is now " .. boost_mighty)
+    e.self:Message(MT.Say, "Mighty combat boost is now " .. boost_mighty .. ", giving you 2x outgoing damage and significant reduction in incoming damage.")
 end
 
 return boost_mighty;

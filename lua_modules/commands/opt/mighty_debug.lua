@@ -7,7 +7,7 @@ local function mighty_debug(e)
         mighty_debug = "ON"
     end
     e.self:SetBucket("mighty_debug", mighty_debug)
-    e.self:Message(15, "Mighty combat debug messaging is now " .. mighty_debug)
+    e.self:Message(MT.Say, "Mighty combat debug messaging is now " .. mighty_debug)
 end
 
 return mighty_debug;

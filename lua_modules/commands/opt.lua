@@ -4,6 +4,7 @@ commands["4x"] = { require("lua_modules/commands/opt/boost_4x"), "Toggle experie
 commands["exp_debug"] = { require("lua_modules/commands/opt/exp_debug"), "Toggle experience debug messaging"}
 commands["mighty"] = { require("lua_modules/commands/opt/mighty"), "Toggle mighty"}
 commands["mighty_debug"] = { require("lua_modules/commands/opt/mighty_debug"), "Toggle mighty debug messaging"}
+commands["catchup"] = { require("lua_modules/commands/opt/boost_catchup"), "Toggle experience catchup"}
 
 ---@param e PlayerEventCommand
 local function opt(e)
@@ -14,7 +15,7 @@ local function opt(e)
 
     local command = commands[e.args[1]];
     if not command then
-        e.self:Message(MT.White, "Unknown option: " .. e.args[1])
+        e.self:Message(MT.Say, "Unknown option: " .. e.args[1])
         opt_usage(e)
         return
     end
@@ -25,10 +26,17 @@ end
 
 ---@param e PlayerEventCommand
 function opt_usage(e)
-    local boost4x = e.self:GetBucket("boost_4x");
-    if boost4x ~= "ON" then
-        boost4x = "OFF"
+    local boost_4x = e.self:GetBucket("boost_4x");
+    if boost_4x ~= "ON" then
+        boost_4x = "OFF"
     end
+
+    local boost_catchup = e.self:GetBucket("boost_catchup");
+
+    if boost_catchup ~= "ON" then
+        boost_catchup = "OFF"
+    end
+
 
 
     local exp_debug = e.self:GetBucket("exp_debug");
@@ -36,7 +44,7 @@ function opt_usage(e)
         exp_debug = "OFF"
     end
 
-    e.self:Message(MT.White, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. boost4x).."] [" .. eq.say_link("#opt exp_debug", true, "exp_debug " .. exp_debug).."]");
+    e.self:Message(MT.Say, "exp: [".. eq.say_link("#opt 4x", true, "4x " .. boost_4x).."] [".. eq.say_link("#opt catchup", true, "catchup " .. boost_catchup).."] [" .. eq.say_link("#opt exp_debug", true, "exp_debug " .. exp_debug).."]");
 
     local boost_mighty = e.self:GetBucket("boost_mighty");
     if boost_mighty ~= "ON" then
@@ -49,7 +57,7 @@ function opt_usage(e)
         mighty_debug = "OFF"
     end
 
-    e.self:Message(MT.White, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
+    e.self:Message(MT.Say, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
 
 end
 

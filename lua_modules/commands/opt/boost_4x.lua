@@ -7,7 +7,7 @@ local function boost_4x(e)
         boost_4x = "ON"
     end
     e.self:SetBucket("boost_4x", boost_4x)
-    e.self:Message(15, "Experience 4x boost is now " .. boost_4x)
+    e.self:Message(MT.Say, "Experience 4x boost is now " .. boost_4x .. ", giving you 4x exp.")
 end
 
 return boost_4x;
