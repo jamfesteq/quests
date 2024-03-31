@@ -420,6 +420,8 @@ function event_level_up(e)
     end
   end
 
+  exp_skillup(e)
+
   if e.self:GetLevel() == 5 and eq.is_omens_of_war_enabled() then
     eq.popup("", "<c \"#F0F000\">Welcome to level 5.</c><br><br>You have just been granted a new ability called '<c \"#F0F000\">Origin</c>' which allows you to teleport back to your starting city.<br><br>Open the Alternate Advancement window by pressing the '<c \"#F0F000\">V</c>' key, look in the '<c \"#F0F000\">General' tab</c>, and find the '<c \"#F0F000\">Origin</c>' ability and select it.<br><br>Now press the '<c \"#F0F000\">Hotkey</c>' button to create a hotkey you can place on your hot bar.");
   end
@@ -427,6 +429,30 @@ function event_level_up(e)
   if e.self:GetLevel() == 10 and eq.is_the_planes_of_power_enabled() then
     eq.popup("", "<c \"#F0F000\">Welcome to level 10.</c><br><br>You are now able to begin the new player armor and weapon quests.  Speak with Castlen and Barrenzin or V`Lynn Renloe in the <c \"#66CCFF\">Plane of Knowledge</c> to begin.  One additional quest will become available to you at each level past level 10, so be sure to check back with these NPCs as you continue to gain experience.");
   end
+end
+
+---@param e PlayerEventLevelUp
+function exp_skillup(e)
+	local is_exp_enabled = false
+	local boost_4x = e.self:GetBucket("boost_4x")
+    if boost_4x == "ON" then
+		is_exp_enabled = true
+	end
+
+	local boost_catchup = e.self:GetBucket("boost_catchup")
+	if boost_catchup == "ON" then
+		is_exp_enabled = true
+	end
+
+	if not is_exp_enabled then
+		return
+	end
+
+	for i = 0, 77 do
+		if (e.self:MaxSkill(i) > 0 and e.self:CanHaveSkill(i) and e.self:GetSkill(i) < e.self:MaxSkill(i)) then
+			e.self:SetSkill(i, e.self:MaxSkill(i))
+		end
+	end
 end
 
 test_items = {
