@@ -32,9 +32,6 @@ function CheckHitChance(e)
         end
     end
 
-    if not enemy:IsNPC() then
-        return e
-    end
 
     local mighty = ally:GetBucket("boost_mighty")
     if mighty == "ON" then
@@ -42,14 +39,20 @@ function CheckHitChance(e)
             multiplier = 2
             -- if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
             --     multiplier = 20
-            -- end
+            --
         else
             multiplier = 0.5
             if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
                  multiplier = 0.5
             end
+            if e.hit.skill == 10 then -- bash
+                eq.debug("Bash")
+                multiplier = 0.1
+            end
         end
     end
+
+
 
     local is_debug = ally:GetBucket("mighty_debug")
 
@@ -114,7 +117,9 @@ end
 function CommonDamage(e)
     local multiplier = 1
 
-
+    if e.value < 0 then
+        return e
+    end
     local is_good = false
     local ally = e.self
     local enemy = e.attacker
