@@ -44,7 +44,7 @@ function CheckHitChance(e)
             --     multiplier = 20
             -- end
         else
-            multiplier = 0.8
+            multiplier = 0.5
             if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
                  multiplier = 0.5
             end
@@ -154,7 +154,7 @@ function CommonDamage(e)
                 multiplier = 20
             end
         else
-            multiplier = 0.8
+            multiplier = 0.4
             if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
                 multiplier = 0.3
             end
