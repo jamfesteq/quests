@@ -17,7 +17,7 @@ function GetExperienceForKill(e)
     end
 
     local boost_catchup = e.self:GetBucket("boost_catchup")
-    if boost_catchup == "ON" then
+    if boost_catchup == "ON" and e.self:GetLevel() <= 50 then
         local level = client:GetLevel()
         multiplier = multiplier + 6
         if level >= 10 then
