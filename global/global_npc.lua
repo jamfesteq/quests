@@ -223,7 +223,7 @@ end
 function cleric_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.other:Message(MT.Say, "I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
             return
         end
         -- HP
@@ -375,7 +375,7 @@ function druid_ports_and_buffs(e)
 
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.other:Message(MT.Say, "I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
             return
         end
         -- HP Type 1
@@ -514,7 +514,7 @@ function druid_ports_and_buffs(e)
                 if (take_money(e.other)) then
                     eq.SelfCast(v)
                 else
-                    e.other:Message(MT.Say, "I'm sorry, i cannot teleport you unless you have sufficient money.")
+                    e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you have sufficient money.")
                 end
                 return
             end
@@ -533,7 +533,7 @@ end
 function enchanter_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.other:Message(MT.Say, "I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
             return
         end
         -- Haste
@@ -612,7 +612,7 @@ end
 function shaman_buffs(e)
     if (e.message:findi("buffs")) then
         if (take_money(e.other) ~= true) then
-            e.other:Message(MT.Say, "I'm sorry, i cannot buff you unless you have sufficient money.")
+            e.other:Message(MT.Say, "I'm sorry, I cannot buff you unless you have sufficient money.")
             return
         end
         -- Talisman
@@ -868,7 +868,7 @@ function wizard_ports(e)
                 if (take_money(e.other)) then
                     eq.SelfCast(v)
                 else
-                    e.other:Message(MT.Say, "I'm sorry, i cannot teleport you unless you have sufficient money.")
+                    e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you have sufficient money.")
                 end
                 return
             end
