@@ -180,6 +180,42 @@ end
 if (eq.is_the_scars_of_velious_enabled()) then
     continents["Velious"] = 0 -- Velious Only
 end
+if (eq.is_the_shadows_of_luclin_enabled) then
+    continents["Luclin"] = 0 -- Luclin Only
+end
+if (eq.is_the_planes_of_power_enabled()) then
+    continents["Planes of Power"] = 0 -- Planes of Power Only
+end
+if (eq.is_gates_of_discord_enabled()) then
+    continents["Gates of Discord"] = 0 -- Gates of Discord Only
+end
+if (eq.is_omens_of_war_enabled()) then
+    continents["Omens of War"] = 0 -- Omens of War Only
+end
+if (eq.is_depths_of_darkhollow_enabled()) then
+    continents["Depths of Darkhollow"] = 0 -- Depths of Darkhollow Only
+end
+if (eq.is_prophecy_of_ro_enabled()) then
+    continents["Prophecy of Ro"] = 0 -- Prophecy of Ro Only
+end
+if (eq.is_the_serpents_spine_enabled()) then
+    continents["The Serpent's Spine"] = 0 -- The Serpent's Spine Only
+end
+if (eq.is_the_buried_sea_enabled()) then
+    continents["The Buried Sea"] = 0 -- The Buried Sea Only
+end
+if (eq.is_secrets_of_faydwer_enabled()) then
+    continents["Secrets of Faydwer"] = 0 -- Secrets of Faydwer Only
+end
+if (eq.is_house_of_thule_enabled()) then
+    continents["House of Thule"] = 0 -- House of Thule Only
+end
+if (eq.is_underfoot_enabled()) then
+    continents["Underfoot"] = 0 -- Underfoot Only
+end
+if (eq.is_veil_of_alaris_enabled()) then
+    continents["Veil of Alaris"] = 0 -- Veil of Alaris Only
+end
 
 ---@param e NPCEventSay
 function do_buffs_and_ports(e)
@@ -357,6 +393,7 @@ function druid_ports_and_buffs(e)
     local faydwer_zones = {}
     faydwer_zones["Butcherblock Mountains"] = 532
     faydwer_zones["Steamfont Mountains"] = 537
+    faydwer_zones["Surefall Glade"] = 2021
     local odus_zones = {}
     odus_zones["Toxxulia Forest"] = 533
     local kunark_zones = {} -- Kunark Only
@@ -371,6 +408,71 @@ function druid_ports_and_buffs(e)
         velious_zones["Iceclad Ocean"] = 1433
         velious_zones["The Great Divide"] = 2029
         velious_zones["Wakening Lands"] = 2030
+    end
+    local luclin_zones = {} -- Luclin Only
+    if (eq.is_the_shadows_of_luclin_enabled()) then
+        luclin_zones["Grimling Forest"] = 2417
+        luclin_zones["Twilight Sea"] = 2422
+        luclin_zones["Dawnshroud Peaks"] = 2427
+        luclin_zones["Nexus"] = 2433
+    end
+    local pop_zones = {} -- Planes of Power Only
+    if (eq.is_the_planes_of_power_enabled()) then
+        pop_zones["Plane of Knowledge"] = 3182
+        ---pop_zones["Stonebrunt Mountains"] = 3794
+    end
+    local god_zones = {} -- Gates of Discord Only
+    if (eq.is_gates_of_discord_enabled()) then
+        god_zones["Natimbi"] = 4967
+        god_zones["Barindu"] = 5733
+    end
+    local oow_zones = {} -- Omens of War Only
+    if (eq.is_omens_of_war_enabled()) then
+        oow_zones["Wall of Slaughter"] = 6180
+        oow_zones["Bloodfields"] = 6185
+    end
+
+    local dodh_zones = {} -- Depths of Darkhollow Only
+    if (eq.is_depths_of_darkhollow_enabled()) then
+        dodh_zones["Undershore"] = 8237
+    end
+
+    local por_zones = {} -- Prophecy of Ro Only
+    if (eq.is_prophecy_of_ro_enabled()) then
+        por_zones["Arcstone"] = 8967
+    end
+
+    local tss_zones = {} -- The Serpent's Spine Only
+    if (eq.is_the_serpents_spine_enabled()) then
+        tss_zones["Direwind"] = 9952
+        tss_zones["Steppes"] = 9955
+        tss_zones["Blightfire"] = 9958
+    end
+
+    local tbs_zones = {} -- The Buried Sea Only
+    if (eq.is_the_buried_sea_enabled()) then
+        tbs_zones["Buried Sea"] = 11982
+    end
+
+    local sof_zones = {} -- Secrets of Faydwer Only
+    if (eq.is_secrets_of_faydwer_enabled()) then
+        sof_zones["Loping Plains"] = 15888
+    end
+
+    local hot_zones = {} -- House of Thule Only
+    if (eq.is_house_of_thule_enabled()) then
+        hot_zones["The Grounds"] = 17882
+    end
+
+    local uf_zones = {} -- Underfoot Only
+    if (eq.is_underfoot_enabled()) then
+        uf_zones["Brell's Rest"] = 21986
+    end
+
+    local voa_zones = {} -- Veil of Alaris Only
+    if (eq.is_veil_of_alaris_enabled()) then
+        voa_zones["Beast's Domain"] = 28996
+        voa_zones["Pillars of Alra"] = 28999
     end
 
     if (e.message:findi("buffs")) then
@@ -503,12 +605,36 @@ function druid_ports_and_buffs(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
+    elseif (e.message:findi("luclin")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
+    elseif (e.message:findi("pop")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(pop_zones))
+    elseif (e.message:findi("god")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
+    elseif (e.message:findi("oow")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(oow_zones))
+    elseif (e.message:findi("dodh")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(dodh_zones))
+    elseif (e.message:findi("por")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(por_zones))
+    elseif (e.message:findi("tss")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tss_zones))
+    elseif (e.message:findi("tbs")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tbs_zones))
+    elseif (e.message:findi("sof")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(sof_zones))
+    elseif (e.message:findi("hot")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(hot_zones))
+    elseif (e.message:findi("uf")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(uf_zones))
+    elseif (e.message:findi("voa")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(voa_zones))
     elseif (e.message:findi("bind")) then
 		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
 		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
-        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones)
+        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones, uf_zones, voa_zones)
         for k, v in pairs(all_zones) do
             if (e.message:findi(k)) then
                 if (take_money(e.other)) then
@@ -845,6 +971,64 @@ function wizard_ports(e)
         velious_zones["Wakening Lands"] = 2027
     end
 
+    local luclin_zones = {} -- Luclin Only
+    if (eq.is_the_shadows_of_luclin_enabled()) then
+        luclin_zones["Grimling Forest"] = 2418
+        luclin_zones["Twilight Sea"] = 2423
+        luclin_zones["Dawnshroud Peaks"] = 2428
+        luclin_zones["Nexus"] = 2945
+    end
+
+    local pop_zones = {} -- Planes of Power Only
+    if (eq.is_the_planes_of_power_enabled()) then
+        pop_zones["Plane of Knowledge"] = 3183
+    end
+
+
+    local god_zones = {} -- Gates of Discord Only
+    if (eq.is_gates_of_discord_enabled()) then
+        god_zones["Natimbi"] = 4963
+        god_zones["Barindu"] = 5734
+    end
+
+    local oow_zones = {} -- Omens of War Only
+    if (eq.is_omens_of_war_enabled()) then
+        oow_zones["Bloodfields"] = 6181
+        oow_zones["Wall of Slaughter"] = 6176
+    end
+
+    local dodh_zones = {} -- Depths of Darkhollow Only
+    if (eq.is_depths_of_darkhollow_enabled()) then
+        dodh_zones["Undershore"] = 8238
+    end
+
+    local por_zones = {} -- Prophecy of Ro Only
+    if (eq.is_prophecy_of_ro_enabled()) then
+        por_zones["Arcstone"] = 8968
+    end
+
+    local tss_zones = {} -- The Serpent's Spine Only
+    if (eq.is_the_serpents_spine_enabled()) then
+        tss_zones["Icefall Glacier"] = 10876
+        tss_zones["Sunderock Springs"] = 10879
+        tss_zones["Blightfire Moores"] = 10882
+    end
+
+    local tbs_zones = {} -- The Buried Sea Only
+    if (eq.is_the_buried_sea_enabled()) then
+        tbs_zones["Katta Castrum"] = 11985
+    end
+
+    local sof_zones = {} -- Secrets of Faydwer Only
+    if (eq.is_secrets_of_faydwer_enabled()) then
+        sof_zones["Dragonscale Hills"] = 15891
+    end
+
+    local hot_zones = {} -- House of Thule Only
+    if (eq.is_house_of_thule_enabled()) then
+        hot_zones["Grounds"] = 17885
+    end
+
     if (e.message:findi("teleport")) then
         e.other:Message(MT.Say, "I can teleport you to the following continents: " .. build_say_links(continents))
     elseif (e.message:findi("antonica")) then
@@ -857,12 +1041,32 @@ function wizard_ports(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
+    elseif (e.message:findi("luclin")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
+    elseif (e.message:findi("pop")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(pop_zones))
+    elseif (e.message:findi("god")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
+    elseif (e.message:findi("oow")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(oow_zones))
+    elseif (e.message:findi("dodh")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(dodh_zones))
+    elseif (e.message:findi("por")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(por_zones))
+    elseif (e.message:findi("tss")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tss_zones))
+    elseif (e.message:findi("tbs")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tbs_zones))
+    elseif (e.message:findi("sof")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(sof_zones))
+    elseif (e.message:findi("hot")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(hot_zones))
     elseif (e.message:findi("bind")) then
 		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
 		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
-        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones)
+        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones)
         for k, v in pairs(all_zones) do
             if (e.message:findi(k)) then
                 if (take_money(e.other)) then
