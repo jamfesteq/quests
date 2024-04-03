@@ -27,6 +27,9 @@ function UpdatePersonalFaction(e)
             multiplier = multiplier + 10
         end
     end
+    if e.npc_value < 1 then
+        multiplier = 1
+    end
     e.return_value = e.npc_value * multiplier
 
     local is_debug = e.self:GetBucket("exp_debug")
