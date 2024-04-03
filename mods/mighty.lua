@@ -306,13 +306,50 @@ function ResistSpellRoll(e)
         return e
     end
 
+    local context = "resist"
     local is_overrode = false
     local overrode_text = ""
     if not is_good and e.return_value > e.resist_chance then
         local roll = math.random(1, 100)
-        if roll <= 50 then
+
+        local chance = 50
+
+        local resists = {}
+        resists[3] = "snare resist"
+        resists[11] = "slow resist"
+        --resists[15] = "mana drain resist"
+        resists[20] = "blind resist"
+        resists[21] = "stun resist"
+        resists[22] = "charm resist"
+        resists[23] = "fear resist"
+        resists[27] = "cancel magic resist"
+        resists[31] = "mez resist"
+        resists[35] = "disease resist"
+        resists[36] = "poison resist"
+        resists[64] = "spin resist"
+        resists[96] = "silence resist"
+        resists[99] = "root resist"
+        resists[209] = "dispel beneficial resist"
+        resists[380] = "knockback resist"
+        resists[502] = "fearstun resist"
+
+        local spell = eq.get_spell(e.spell_id)
+        if spell then
+
+            for i = 1, 12 do
+                for effect_id, effect_name in pairs(resists) do
+                    if spell:EffectID(i) == effect_id then
+                        context = effect_name
+                        eq.debug(effect_name)
+                        chance = 90
+                    end
+                end
+            end
+        end
+
+        if roll <= chance then
             is_overrode = true
-            overrode_text = ", override to " .. e.resist_chance
+            overrode_text = string.format(", overrode to %d", e.resist_chance)
         end
     end
 
@@ -363,7 +400,7 @@ function ResistSpellRoll(e)
         end
         return e
     end
-    ally:Message(MT.Spells, string.format("Incoming mighty resist (%d * %0.1f) = %d%s vs %d (%s)", e.roll, multiplier, e.return_value, overrode_text, e.resist_chance, landed))
+    ally:Message(MT.Spells, string.format("Incoming mighty %s (%d * %0.1f) = %d%s vs %d (%s)", context, e.roll, multiplier, e.return_value, overrode_text, e.resist_chance, landed))
     if is_overrode then
         e.return_value = e.resist_chance
     end
