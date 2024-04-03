@@ -556,7 +556,7 @@ function con_npc(e)
     else
 		spawnGroupMsg = string.format("and is part of spawngroup %d", sp2)
     end
-    e.self:Message(MT.White, string.format("%s is a %s %s npc with npctypeid %d %s and a HP:XP of %d", npc:GetCleanName(), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, ratio));
+    e.self:Message(MT.White, string.format("%s is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
     return true
 end
 
