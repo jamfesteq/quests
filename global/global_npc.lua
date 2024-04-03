@@ -174,6 +174,7 @@ continents = {}
 continents["Antonica"] = 0
 continents["Faydwer"] = 0
 continents["Odus"] = 0
+continents["Planar"] = 0
 if (eq.is_the_ruins_of_kunark_enabled()) then
     continents["Kunark"] = 0 -- Kunark Only
 end
@@ -957,6 +958,9 @@ function wizard_ports(e)
     faydwer_zones["Greater Faydark"] = 543
     local odus_zones = {}
     odus_zones["Toxxulia Forest"] = 541
+    local planar_zones = {}
+    planar_zones["Plane of Hate"] = 666
+    planar_zones["Plane of Sky"] = 674
     local kunark_zones = {} -- Kunark Only
     if (eq.is_the_ruins_of_kunark_enabled()) then
         kunark_zones["Dreadlands"] = 1325
@@ -1037,6 +1041,8 @@ function wizard_ports(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
     elseif (e.message:findi("odus")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(odus_zones))
+    elseif (e.message:findi("planar")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(planar_zones))
     elseif (e.message:findi("kunark")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
@@ -1066,14 +1072,24 @@ function wizard_ports(e)
 		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
-        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones)
+        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, planar_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones)
         for k, v in pairs(all_zones) do
             if (e.message:findi(k)) then
+                if k == "Plane of Hate" or k == "Plane of Sky" then
+                    if (e.other:GetLevel() < 46) then
+                        e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you are level 46 or higher.")
+                        return
+                    end
+                    if e.other:IsGrouped() then
+                        e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you are not in a group.")
+                        return
+                    end
+                end
                 if (take_money(e.other)) then
                     eq.SelfCast(v)
-                else
-                    e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you have sufficient money.")
+                    return
                 end
+                e.other:Message(MT.Say, "I'm sorry, I cannot teleport you unless you have sufficient money.")
                 return
             end
         end
