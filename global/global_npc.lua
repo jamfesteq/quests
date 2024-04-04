@@ -184,9 +184,6 @@ end
 if (eq.is_the_shadows_of_luclin_enabled) then
     continents["Luclin"] = 0 -- Luclin Only
 end
-if (eq.is_the_planes_of_power_enabled()) then
-    continents["Planes of Power"] = 0 -- Planes of Power Only
-end
 if (eq.is_gates_of_discord_enabled()) then
     continents["Gates of Discord"] = 0 -- Gates of Discord Only
 end
@@ -398,6 +395,7 @@ function druid_ports_and_buffs(e)
     local odus_zones = {}
     odus_zones["Toxxulia Forest"] = 533
     local kunark_zones = {} -- Kunark Only
+    local planar_zones = {}
     if (eq.is_the_ruins_of_kunark_enabled()) then
         kunark_zones["Dreadlands"] = 1326
         kunark_zones["Emerald Jungle"] = 1737
@@ -417,10 +415,8 @@ function druid_ports_and_buffs(e)
         luclin_zones["Dawnshroud Peaks"] = 2427
         luclin_zones["Nexus"] = 2433
     end
-    local pop_zones = {} -- Planes of Power Only
     if (eq.is_the_planes_of_power_enabled()) then
-        pop_zones["Plane of Knowledge"] = 3182
-        ---pop_zones["Stonebrunt Mountains"] = 3794
+        planar_zones["Plane of Knowledge"] = 3182
     end
     local god_zones = {} -- Gates of Discord Only
     if (eq.is_gates_of_discord_enabled()) then
@@ -602,14 +598,14 @@ function druid_ports_and_buffs(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(faydwer_zones))
     elseif (e.message:findi("odus")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(odus_zones))
+    elseif (e.message:findi("planar")) then
+        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(planar_zones))
     elseif (e.message:findi("kunark")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(kunark_zones))
     elseif (e.message:findi("velious")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
     elseif (e.message:findi("luclin")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
-    elseif (e.message:findi("pop")) then
-        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(pop_zones))
     elseif (e.message:findi("god")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
     elseif (e.message:findi("oow")) then
@@ -635,7 +631,7 @@ function druid_ports_and_buffs(e)
 		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
-        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones, uf_zones, voa_zones)
+        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, kunark_zones, velious_zones, luclin_zones, planar_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones, uf_zones, voa_zones)
         for k, v in pairs(all_zones) do
             if (e.message:findi(k)) then
                 if (take_money(e.other)) then
@@ -1048,8 +1044,6 @@ function wizard_ports(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
     elseif (e.message:findi("luclin")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
-    elseif (e.message:findi("pop")) then
-        e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(pop_zones))
     elseif (e.message:findi("god")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
     elseif (e.message:findi("oow")) then
@@ -1071,7 +1065,7 @@ function wizard_ports(e)
 		e.self:CastSpell(2049,e.other:GetID(),0,1); -- Spell: Bind Affinity
     else
         local all_zones = {}
-        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, planar_zones, kunark_zones, velious_zones, luclin_zones, pop_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones)
+        merge_tables(all_zones, antonica_zones, faydwer_zones, odus_zones, planar_zones, kunark_zones, velious_zones, luclin_zones, god_zones, oow_zones, dodh_zones, por_zones, tss_zones, tbs_zones, sof_zones, hot_zones)
         for k, v in pairs(all_zones) do
             if (e.message:findi(k)) then
                 if k == "Plane of Hate" or k == "Plane of Sky" then
