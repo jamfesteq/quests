@@ -216,17 +216,17 @@ function CommonDamage(e)
         if is_good then
             multiplier = 2
             if enemy:GetLevel() >= 40 then
-                multiplier = 3
-            end
-            if enemy:GetLevel() >= 50 then
                 multiplier = 4
             end
+            if enemy:GetLevel() >= 50 then
+                multiplier = 6
+            end
             if enemy:GetLevel() >= 60 then
-                multiplier = 5
+                multiplier = 8
             end
 
             if enemy:GetLevel() >= 70 then
-                multiplier = 6
+                multiplier = 10
             end
 
             if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
