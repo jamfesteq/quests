@@ -358,7 +358,7 @@ function ResistSpellRoll(e)
                     if spell:EffectID(i) == effect_id then
                         context = effect_name
                         eq.debug(effect_name)
-                        chance = 90
+                        chance = 99
                     end
                 end
             end
