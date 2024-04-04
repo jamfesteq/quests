@@ -215,8 +215,25 @@ function CommonDamage(e)
     if mighty == "ON" then
         if is_good then
             multiplier = 2
+            if enemy:GetLevel() >= 40 then
+                multiplier = 3
+            end
+            if enemy:GetLevel() >= 50 then
+                multiplier = 4
+            end
+            if enemy:GetLevel() >= 60 then
+                multiplier = 5
+            end
+
+            if enemy:GetLevel() >= 70 then
+                multiplier = 6
+            end
+
             if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
-                multiplier = 20
+                multiplier = 12
+                if enemy:GetLevel() >= 60 then
+                    multiplier = 24
+                end
             end
         else
             multiplier = 0.4
