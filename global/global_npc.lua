@@ -983,9 +983,8 @@ function wizard_ports(e)
         luclin_zones["Nexus"] = 2945
     end
 
-    local pop_zones = {} -- Planes of Power Only
     if (eq.is_the_planes_of_power_enabled()) then
-        pop_zones["Plane of Knowledge"] = 3183
+        planar_zones["Plane of Knowledge"] = 3183
     end
 
 
