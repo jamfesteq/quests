@@ -413,7 +413,8 @@ function ResistSpellRoll(e)
     if is_good then
         ally:Message(MT.Spells, string.format("Outgoing mighty resist (%d * %0.1f) = %d%s vs %d (%s)", e.roll, multiplier, e.return_value, overrode_text, e.resist_chance, landed))
         if is_overrode then
-            e.return_value = e.resist_chance
+            e.return_value = -300
+            --e.return_value = e.resist_chance
         end
         return e
     end

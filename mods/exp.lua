@@ -21,7 +21,7 @@ function SetEXP(e)
     end
 
     local boost_catchup = e.self:GetBucket("boost_catchup")
-    if boost_catchup == "ON" and e.self:GetLevel() <= 50 and e.exp_source == ExpSource.Kill then
+    if boost_catchup == "ON" and e.self:GetLevel() <= 65 and e.exp_source == ExpSource.Kill then
         local level = client:GetLevel()
         multiplier = multiplier + 6
         if level >= 10 then
@@ -80,7 +80,7 @@ function SetAAEXP(e)
     end
 
     local boost_catchup = e.self:GetBucket("boost_catchup")
-    if boost_catchup == "ON" and total_aa <= 100 and e.exp_source == ExpSource.Kill then
+    if boost_catchup == "ON" and total_aa <= 1000 and e.exp_source == ExpSource.Kill then
         local level = client:GetLevel()
         multiplier = multiplier + 6
         if level >= 10 then
