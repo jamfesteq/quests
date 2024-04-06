@@ -606,25 +606,25 @@ function druid_ports_and_buffs(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
     elseif (e.message:findi("luclin")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
-    elseif (e.message:findi("god")) then
+    elseif (e.message:findi("gates")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
-    elseif (e.message:findi("oow")) then
+    elseif (e.message:findi("omens")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(oow_zones))
-    elseif (e.message:findi("dodh")) then
+    elseif (e.message:findi("depths")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(dodh_zones))
-    elseif (e.message:findi("por")) then
+    elseif (e.message:findi("prophecy")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(por_zones))
-    elseif (e.message:findi("tss")) then
+    elseif (e.message:findi("serpents")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tss_zones))
-    elseif (e.message:findi("tbs")) then
+    elseif (e.message:findi("buried")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tbs_zones))
-    elseif (e.message:findi("sof")) then
+    elseif (e.message:findi("secret")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(sof_zones))
-    elseif (e.message:findi("hot")) then
+    elseif (e.message:findi("house")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(hot_zones))
-    elseif (e.message:findi("uf")) then
+    elseif (e.message:findi("underfoot")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(uf_zones))
-    elseif (e.message:findi("voa")) then
+    elseif (e.message:findi("veil")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(voa_zones))
     elseif (e.message:findi("bind")) then
 		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
@@ -1044,21 +1044,21 @@ function wizard_ports(e)
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(velious_zones))
     elseif (e.message:findi("luclin")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(luclin_zones))
-    elseif (e.message:findi("god")) then
+    elseif (e.message:findi("gates")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(god_zones))
-    elseif (e.message:findi("oow")) then
+    elseif (e.message:findi("omens")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(oow_zones))
-    elseif (e.message:findi("dodh")) then
+    elseif (e.message:findi("depths")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(dodh_zones))
-    elseif (e.message:findi("por")) then
+    elseif (e.message:findi("prophecy")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(por_zones))
-    elseif (e.message:findi("tss")) then
+    elseif (e.message:findi("serpents")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tss_zones))
-    elseif (e.message:findi("tbs")) then
+    elseif (e.message:findi("buried")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(tbs_zones))
-    elseif (e.message:findi("sof")) then
+    elseif (e.message:findi("secret")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(sof_zones))
-    elseif (e.message:findi("hot")) then
+    elseif (e.message:findi("house")) then
         e.other:Message(MT.Say, "I can teleport you to the following zones: " .. build_say_links(hot_zones))
     elseif (e.message:findi("bind")) then
 		e.other:Message(MT.Say, "Binding your soul. You will return here when you die.");
