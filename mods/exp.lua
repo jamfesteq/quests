@@ -98,6 +98,9 @@ function SetAAEXP(e)
         if level >= 50 then
             multiplier = multiplier + 10
         end
+        if total_aa < 900 then
+            multiplier = multiplier + 100
+        end
     end
 
     local base_gain = e.set_aa_exp - e.current_aa_exp
