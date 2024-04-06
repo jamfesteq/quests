@@ -412,13 +412,7 @@ end
 ]]--
 
 function event_level_up(e)
-  local free_skills =  {0,1,2,3,4,5,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,28,29,30,31,32,33,34,36,37,38,39,41,42,49,51,52,54,67,70,71,72,73,74,76};
 
-  for k,v in ipairs(free_skills) do
-    if ( e.self:MaxSkill(v) > 0 and e.self:GetRawSkill(v) < 1 and e.self:CanHaveSkill(v) ) then
-      e.self:SetSkill(v, 1);
-    end
-  end
 
   exp_skillup(e)
 
@@ -449,7 +443,14 @@ function exp_skillup(e)
 	end
 
 	for i = 0, 77 do
-		if (e.self:MaxSkill(i) > 0 and e.self:CanHaveSkill(i) and e.self:GetSkill(i) < e.self:MaxSkill(i)) then
+		if i ~= 43 and
+			i ~= 44 and
+			i ~= 45 and
+			i ~= 46 and
+			i ~= 47 and
+			e.self:MaxSkill(i) > 0
+			and e.self:CanHaveSkill(i)
+			and e.self:GetSkill(i) < e.self:MaxSkill(i) then
 			e.self:SetSkill(i, e.self:MaxSkill(i))
 		end
 	end
