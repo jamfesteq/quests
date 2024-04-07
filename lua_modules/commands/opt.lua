@@ -3,6 +3,7 @@ local commands = { }
 commands["4x"] = { require("lua_modules/commands/opt/boost_4x"), "Toggle experience boost by 4x"}
 commands["exp_debug"] = { require("lua_modules/commands/opt/exp_debug"), "Toggle experience debug messaging"}
 commands["mighty"] = { require("lua_modules/commands/opt/mighty"), "Toggle mighty"}
+commands["mighty_solo"] = { require("lua_modules/commands/opt/mighty_solo"), "Toggle mighty solo"}
 commands["mighty_debug"] = { require("lua_modules/commands/opt/mighty_debug"), "Toggle mighty debug messaging"}
 commands["catchup"] = { require("lua_modules/commands/opt/boost_catchup"), "Toggle experience catchup"}
 
@@ -51,13 +52,17 @@ function opt_usage(e)
         boost_mighty = "OFF"
     end
 
+    local boost_mighty_solo = e.self:GetBucket("boost_mighty_solo");
+    if boost_mighty_solo ~= "ON" then
+        boost_mighty_solo = "OFF"
+    end
 
     local mighty_debug = e.self:GetBucket("mighty_debug");
     if mighty_debug ~= "ON" then
         mighty_debug = "OFF"
     end
 
-    e.self:Message(MT.Say, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
+    e.self:Message(MT.Say, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [".. eq.say_link("#opt mighty_solo", true, "mighty_solo " .. boost_mighty_solo).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
 
 end
 

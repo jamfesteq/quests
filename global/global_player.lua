@@ -558,6 +558,11 @@ function con_npc(e)
 		spawnGroupMsg = string.format("and is part of spawngroup %d", sp2)
     end
     e.self:Message(MT.White, string.format("%s is a %s %s npc with npctypeid %d %s and hp %d xp %d (ratio %d)", npc:GetCleanName(), rare_flag, raid_flag, npc:GetID(), spawnGroupMsg, hp, base_exp, ratio));
+	local mighty_multiplier = require("mighty_multiplier")
+	local msg_out, _ = mighty_multiplier.good_damage_bonus(e.self, npc)
+	local msg_in, _ = mighty_multiplier.bad_damage_penalty(e.self, npc)
+
+	e.self:Message(MT.White, string.format("mighty out: %s, in: %s", msg_out, msg_in))
     return true
 end
 

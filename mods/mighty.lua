@@ -211,35 +211,14 @@ function CommonDamage(e)
         return e
     end
 
+    local mighty_multiplier = require("mighty_multiplier")
+
     local mighty = ally:GetBucket("boost_mighty")
     if mighty == "ON" then
         if is_good then
-            multiplier = 2
-            if enemy:GetLevel() >= 40 then
-                multiplier = 4
-            end
-            if enemy:GetLevel() >= 50 then
-                multiplier = 6
-            end
-            if enemy:GetLevel() >= 60 then
-                multiplier = 8
-            end
-
-            if enemy:GetLevel() >= 70 then
-                multiplier = 10
-            end
-
-            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
-                multiplier = 12
-                if enemy:GetLevel() >= 60 then
-                    multiplier = 24
-                end
-            end
+            _, multiplier = mighty_multiplier.good_damage_bonus(ally:CastToClient(), enemy:CastToNPC())
         else
-            multiplier = 0.4
-            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
-                multiplier = 0.3
-            end
+            _, multiplier = mighty_multiplier.bad_damage_penalty(ally:CastToClient(), enemy:CastToNPC())
         end
     end
 
