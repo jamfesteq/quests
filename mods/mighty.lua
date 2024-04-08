@@ -242,7 +242,6 @@ end
 
 ---@param e ModIsImmuneToSpell
 function IsImmuneToSpell(e)
-    local is_good = false
     local ally = e.self
     local enemy = e.caster
     if not ally.valid then
@@ -251,25 +250,21 @@ function IsImmuneToSpell(e)
     if not enemy.valid then
         return e
     end
-    if not ally:IsClient() then
-        if ally:HasOwner() and ally:GetOwner():IsClient() then
-            ally = ally:GetOwner() -- pet
-        else
-            is_good = true
-            ally = e.caster
-            enemy = e.self
-            if not ally:IsClient() then
-                if not ally:HasOwner() then
-                    return e
-                end
-                if not ally:GetOwner():IsClient() then
-                    return e
-                end
-                ally = ally:GetOwner() -- pet
-            end
+
+    if ally:IsNPC() then
+        if not ally:HasOwner() then
+            return e
         end
+        if not ally:GetOwner():IsClient() then
+            return e
+        end
+        ally = ally:GetOwner()
+        return e
     end
 
+    if ally:IsClient() and not enemy:IsNPC() then
+        return e
+    end
 
     local mighty = ally:GetBucket("boost_mighty")
     local mighty_solo = ally:GetBucket("boost_mighty_solo")
@@ -277,9 +272,6 @@ function IsImmuneToSpell(e)
         return e
     end
 
-    if is_good then
-        return e
-    end
     local is_debug = ally:GetBucket("mighty_debug")
 
     local context = "resist"
