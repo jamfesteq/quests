@@ -226,6 +226,7 @@ function do_buffs_and_ports(e)
     elseif (mob_class == 31) then wizard_ports(e)
     elseif (mob_class == 33) then enchanter_buffs(e)
     elseif (e.self:GetNPCTypeID() == 345004) then wizard_ports(e) -- porter in guildhall
+    elseif (eq.get_zone_id() == 344 and strings.contains(e.self:GetCleanName(), "Guardian")) then wizard_ports(e) -- guards in guildlobby
     end
 end
 
