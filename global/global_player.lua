@@ -8,6 +8,11 @@ function event_enter_zone(e)
 	if eq.is_lost_dungeons_of_norrath_enabled() and eq.get_zone_short_name() == "lavastorm" and e.self:GetGMStatus() >= 80 then
 		e.self:Message(MT.DimGray, "There are GM commands available for Dragons of Norrath, use " .. eq.say_link("#don") .. " to get started")
 	end
+
+	local mighty_solo = e.self:GetBucket("boost_mighty_solo")
+	if mighty_solo == "ON" then
+		e.self:SendAppearancePacket(4, 1);
+	end
 end
 
 function mysterious_voice(e)

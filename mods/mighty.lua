@@ -239,8 +239,9 @@ function CommonDamage(e)
     return e
 end
 
----@param e ModResistSpellRoll
-function ResistSpellRoll(e)
+
+---@param e ModIsImmuneToSpell
+function IsImmuneToSpell(e)
     local is_good = false
     local ally = e.self
     local enemy = e.caster
@@ -270,83 +271,61 @@ function ResistSpellRoll(e)
     end
 
 
-    local multiplier = 1
     local mighty = ally:GetBucket("boost_mighty")
-    if mighty == "ON" then
-        if is_good then
-            if enemy:IsNPC() then
-                --multiplier = 2
-                multiplier = 1
-                if enemy:CastToNPC():IsRaidTarget() then
-                    --multiplier = 4
-                end
-            end
-        else
-            multiplier = 0.4
-            if enemy:IsNPC() and enemy:CastToNPC():IsRaidTarget() then
-                multiplier = 0.3
-            end
-        end
-    end
-
-    local is_debug = ally:GetBucket("mighty_debug")
-
-    e.return_value = e.roll * multiplier
-    e.ignore_default = true
-    if e.return_value > e.roll_max then
-        e.return_value = e.roll_max
-    end
-
-
-    if not is_debug or is_debug ~= "ON" then
+    local mighty_solo = ally:GetBucket("boost_mighty_solo")
+    if mighty ~= "ON" and mighty_solo ~= "ON" then
         return e
     end
 
+    if is_good then
+        return e
+    end
+    local is_debug = ally:GetBucket("mighty_debug")
+
     local context = "resist"
     local is_overrode = false
-    local overrode_text = ""
-    if not is_good and e.return_value > e.resist_chance then
-        local roll = math.random(1, 100)
+    local spell_name = eq.get_spell_name(e.spell_id)
 
-        local chance = 50
+    local roll = math.random(1, 100)
 
-        local resists = {}
-        resists[3] = "snare resist"
-        resists[11] = "slow resist"
-        --resists[15] = "mana drain resist"
-        resists[20] = "blind resist"
-        resists[21] = "stun resist"
-        resists[22] = "charm resist"
-        resists[23] = "fear resist"
-        resists[27] = "cancel magic resist"
-        resists[31] = "mez resist"
-        resists[35] = "disease resist"
-        resists[36] = "poison resist"
-        resists[64] = "spin resist"
-        resists[96] = "silence resist"
-        resists[99] = "root resist"
-        resists[209] = "dispel beneficial resist"
-        resists[380] = "knockback resist"
-        resists[502] = "fearstun resist"
+    local chance = 20
 
-        local spell = eq.get_spell(e.spell_id)
-        if spell then
+    local resists = {}
+    resists[3] = "snare resist"
+    resists[11] = "slow resist"
+    --resists[15] = "mana drain resist"
+    resists[20] = "blind resist"
+    resists[21] = "stun resist"
+    resists[22] = "charm resist"
+    resists[23] = "fear resist"
+    resists[27] = "cancel magic resist"
+    resists[31] = "mez resist"
+    resists[35] = "disease resist"
+    resists[36] = "poison resist"
+    resists[64] = "spin resist"
+    resists[96] = "silence resist"
+    resists[99] = "root resist"
+    resists[209] = "dispel beneficial resist"
+    resists[380] = "knockback resist"
+    resists[502] = "fearstun resist"
 
-            for i = 1, 12 do
-                for effect_id, effect_name in pairs(resists) do
-                    if spell:EffectID(i) == effect_id then
-                        context = effect_name
-                        eq.debug(effect_name)
-                        chance = 99
+    local spell = eq.get_spell(e.spell_id)
+    if spell then
+        for i = 1, 12 do
+            for effect_id, effect_name in pairs(resists) do
+                if spell:EffectID(i) == effect_id then
+                    context = effect_name
+                    chance = 70
+                    if mighty_solo == "ON" then
+                        chance = 90
                     end
                 end
             end
         end
+    end
 
-        if roll <= chance then
-            is_overrode = true
-            overrode_text = string.format(", overrode to %d", e.resist_chance)
-        end
+    if roll <= chance then
+        is_overrode = true
     end
 
 
@@ -376,30 +355,38 @@ function ResistSpellRoll(e)
 
     for _, v in pairs(banish_spells) do
         if e.spell_id == v and e.self:IsClient() then
-            e.self:Message(MT.Spells, string.format("%s just tried to banish you, but jamfest resisted it.", e.caster:GetCleanName()));
-            e.return_value = e.resist_chance
+            ally:Message(MT.SpellFailure, string.format("%s's %s (Banish) was resisted.", e.caster:GetCleanName(), spell_name))
+            --e.self:Message(MT.Spells, string.format("%s just tried to banish you, but jamfest resisted it.", e.caster:GetCleanName()));
+            e.return_value = true
             e.ignore_default = true
             return e
         end
     end
 
 
-    local landed = "landed"
-    if e.return_value < e.resist_chance or is_overrode then
-        landed = "resisted"
+    local landed = "failed"
+    if is_overrode then
+        landed = "success"
+    end
+    if not is_debug or is_debug ~= "ON" then
+        return e
     end
 
+
     if is_good then
-        ally:Message(MT.Spells, string.format("Outgoing mighty resist (%d * %0.1f) = %d%s vs %d (%s)", e.roll, multiplier, e.return_value, overrode_text, e.resist_chance, landed))
+        ally:Message(MT.Spells, string.format("Outgoing mighty immunity %s (%s) %d%% = %s", spell_name, context, chance, landed))
         if is_overrode then
-            e.return_value = -300
-            --e.return_value = e.resist_chance
+            e.return_value = true
+            e.ignore_default = true
+            ally:Message(MT.SpellFailure, string.format("Your %s was mighty resisted.", spell_name))
         end
         return e
     end
-    ally:Message(MT.Spells, string.format("Incoming mighty %s (%d * %0.1f) = %d%s vs %d (%s)", context, e.roll, multiplier, e.return_value, overrode_text, e.resist_chance, landed))
+    ally:Message(MT.Spells, string.format("Incoming mighty immunity %s (%s) %d%% = %s", spell_name, context, chance, landed))
     if is_overrode then
-        e.return_value = e.resist_chance
+        e.return_value = true
+        e.ignore_default = true
+        ally:Message(MT.SpellFailure, string.format("%s's %s was mighty resisted.", e.caster:GetCleanName(), spell_name))
     end
     return e
 end
