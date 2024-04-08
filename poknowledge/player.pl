@@ -5,7 +5,7 @@ sub EVENT_ENTERZONE {
 	}
 
 	set_current_position();
-	quest::settimer("check_idle", 1200);
+	#quest::settimer("check_idle", 1200); #disable boot from pok
 }
 
 sub EVENT_CLICKDOOR {
