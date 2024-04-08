@@ -225,6 +225,7 @@ function do_buffs_and_ports(e)
     elseif (mob_class == 29) then shaman_buffs(e)
     elseif (mob_class == 31) then wizard_ports(e)
     elseif (mob_class == 33) then enchanter_buffs(e)
+    elseif (e.self:GetNPCTypeID() == 345004) then wizard_ports(e) -- porter in guildhall
     end
 end
 
