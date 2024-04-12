@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local commands = { }
 
 commands["4x"] = { require("lua_modules/commands/opt/boost_4x"), "Toggle experience boost by 4x"}
@@ -6,6 +7,7 @@ commands["mighty"] = { require("lua_modules/commands/opt/mighty"), "Toggle might
 commands["mighty_solo"] = { require("lua_modules/commands/opt/mighty_solo"), "Toggle mighty solo"}
 commands["mighty_debug"] = { require("lua_modules/commands/opt/mighty_debug"), "Toggle mighty debug messaging"}
 commands["catchup"] = { require("lua_modules/commands/opt/boost_catchup"), "Toggle experience catchup"}
+commands["return"] = { require("lua_modules/commands/opt/return_command"), "Return to last death location"}
 
 ---@param e PlayerEventCommand
 local function opt(e)
@@ -64,6 +66,16 @@ function opt_usage(e)
 
     e.self:Message(MT.Say, "mighty: [".. eq.say_link("#opt mighty", true, "mighty " .. boost_mighty).."] [".. eq.say_link("#opt mighty_solo", true, "mighty_solo " .. boost_mighty_solo).."] [" .. eq.say_link("#opt mighty_debug", true, "mighty_debug " .. mighty_debug).."]");
 
+    local return_text = "return: no recent deaths"
+    local zone_id = tonumber(e.self:GetBucket("return_zone_id"));
+    if zone_id > 0 then
+        local zone_name = eq.get_zone_long_name_by_id(zone_id)
+        if zone_name ~= "" then
+            return_text = "return: to [".. eq.say_link("#opt return", true, zone_name).."]"
+        end
+    end
+
+    e.self:Message(MT.Say, return_text)
 end
 
 return opt;

@@ -6,6 +6,7 @@ function SetEXP(e)
     local client = e.self:CastToClient()
 
     eq.debug(string.format("exp source: %d, cur: %d, set: %d, diff: %d", e.exp_source, e.current_exp, e.set_exp, e.set_exp - e.current_exp))
+    return_check(e)
     if e.exp_source ~= ExpSource.Quest and
         e.exp_source ~= ExpSource.Kill and
         e.exp_source ~= ExpSource.LDoNChest and
@@ -115,4 +116,25 @@ function SetAAEXP(e)
 
     e.ignore_default = true
     return e
+end
+
+---@param e ModSetEXP
+function return_check(e)
+    if e.exp_source ~= ExpSource.Death then
+        return
+    end
+    local base_gain = e.set_exp - e.current_exp
+
+    if base_gain >= 0 then
+        e.self:Message(MT.Say, "No exp loss detected, so return is not set.")
+        return
+    end
+    e.self:SetBucket("return_zone_id", tostring(eq.get_zone_id()))
+    e.self:SetBucket("return_instance_id", tostring(eq.get_zone_instance_id))
+    e.self:SetBucket("return_version_id", tostring(eq.get_zone_instance_version()))
+    e.self:SetBucket("return_x", tostring(e.self:GetX()))
+    e.self:SetBucket("return_y", tostring(e.self:GetY()))
+    e.self:SetBucket("return_z", tostring(e.self:GetZ()))
+    e.self:SetBucket("return_h", tostring(e.self:GetHeading()))
+    e.self:Message(MT.Say, "You can [" .. eq.say_link("#opt return", true, "return") .. "] to your death location.")
 end
