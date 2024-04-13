@@ -17,14 +17,18 @@ function event_say(e)
 		elseif(e.message:findi("north ro")) then
 		--e.self:CastSpell(4177,e.other:GetID(),0,1);
 			if eq.is_prophecy_of_ro_enabled() then
-				e.other:MovePC(Zone.northro, -914, 2679, -25, 20)
+				e.other:MovePC(Zone.northro, 7892, -558, 98, 507)
 				return
 			end
 			e.other:MovePC(Zone.nro, -914, 2679, -25, 20)
 			return
 		elseif(e.message:findi("commonlands")) then
+			if eq.is_prophecy_of_ro_enabled() then
+				e.other:MovePC(Zone.commonlands, -1836, -2630, 37, 261)
+				return
+			end
 			--e.self:CastSpell(4176,e.other:GetID(),0,1);
-			e.other:MovePC(22,-140,-1520,3,280); -- needs_heading_validation
+			e.other:MovePC(Zone.ecommons,-140,-1520,3,280); -- needs_heading_validation
 		end
 	else --no Adventurers Stone
 		if(e.message:findi("hail")) then
