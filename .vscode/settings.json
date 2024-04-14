@@ -13,5 +13,5 @@
         //"**/eqemu-definitions": true,
     },
     "files.trimTrailingWhitespace": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
 }
